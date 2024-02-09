@@ -24,7 +24,7 @@ const SettingsPage = async () => {
       <div className="px-4 lg:px-8 space-y-4">
         <div className="text-muted-foreground text-sm">
           {/* {isPro ? "You are currently on a Pro plan." : "You are currently on a free plan."} */}
-          You are currently on a Trial Version of Site!
+          You are currently on a Trial Version of Site! | Pro Version Coming Soon!!
         </div>
         {/* <SubscriptionButton isPro={isPro} /> */}
         {/* <div className="flex items-center gap-x-2">
