@@ -1,8 +1,8 @@
 import { Settings } from "lucide-react";
 
 import { Heading } from "@/components/heading";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+// import Link from "next/link";
+// import { Button } from "@/components/ui/button";
 // import { useAuth } from "@clerk/nextjs";
 // import { SubscriptionButton } from "@/components/subscription-button";
 // import { checkSubscription } from "@/lib/subscription";
