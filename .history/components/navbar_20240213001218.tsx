@@ -18,6 +18,6 @@ const Navbar = async () => {
    );
 }
 
-// changes in github
+// changes in githuv
  
 export default Navbar;

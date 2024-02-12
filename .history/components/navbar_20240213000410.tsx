@@ -17,7 +17,5 @@ const Navbar = async () => {
     </div>
    );
 }
-
-// changes in github
  
 export default Navbar;
