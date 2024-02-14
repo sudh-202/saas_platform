@@ -67,3 +67,6 @@ npx prisma db push
 npm run dev
 ```
 
+## For More information about this app, visit my Blog
+https://devsudhanshu-portfolio.vercel.app/next-post
+
