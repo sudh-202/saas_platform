@@ -70,6 +70,6 @@ npm run dev
 ## For more information about this app, visit my Blog
 https://devsudhanshu-portfolio.vercel.app/next-post
 
-## For more Such Project, visit my Portfolio site
+## For more Such Projects, visit my Portfolio site
 https://devsudhanshu-portfolio.vercel.app/
 
