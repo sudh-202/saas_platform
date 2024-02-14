@@ -58,7 +58,7 @@ STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 ## Setup Prisma
-### Add MySQL Database (I used Superbase)
+##### Add MySQL Database (I used Superbase)
 ```javascript
 npx prisma db push
 ```
