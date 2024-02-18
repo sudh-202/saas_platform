@@ -28,7 +28,7 @@ const tools = [
     icon: PaintBucket,
     color: "text-yellow-500",
     bgColor: "bg-yellow-500/10",
-    href: "/generate-fill",
+    href: "/music",
     desc: "Enhance an image's dimensions using AI outpainting",
   },
   {
@@ -83,7 +83,7 @@ const ImageToolsPage = () => {
           <Card
             onClick={() => router.push(tool.href)}
             key={tool.href}
-            className="p-4 border-black/5 flex justify-items-stretch gap-4 selection:flex hover:shadow-md transition cursor-pointer"
+            className="p-4 border-black/5 flex justify-items-stretch gap-4 selection:flex hover:shadow-md transition cursor-pointer h-full"
           >
             <div className="flex flex-col gap-4">
               <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>

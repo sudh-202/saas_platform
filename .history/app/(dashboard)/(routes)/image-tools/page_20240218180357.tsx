@@ -28,7 +28,7 @@ const tools = [
     icon: PaintBucket,
     color: "text-yellow-500",
     bgColor: "bg-yellow-500/10",
-    href: "/generate-fill",
+    href: "/music",
     desc: "Enhance an image's dimensions using AI outpainting",
   },
   {
