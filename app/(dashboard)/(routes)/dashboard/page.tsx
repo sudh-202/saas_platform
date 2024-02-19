@@ -32,7 +32,7 @@ const tools = [
     icon: ImageIcon,
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
-    href: "/image",
+    href: "/image-tools",
   },
   {
     label: "Video Generation",
