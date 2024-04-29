@@ -1,199 +1,108 @@
 "use client";
 
-import * as z from "zod";
-import axios from "axios";
-import Image from "next/image";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Download, ImageIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-// import { toast } from "react-hot-toast";
+import {
+  ArrowRight,
+  ImageIcon,
+  PaintRoller,
+  Puzzle,
+  ArchiveRestore,
+  PaintBucket,
+  ScanLine,
+  UserRoundMinus,
+} from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-import { Heading } from "@/components/heading";
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Loader } from "@/components/loading";
-import { Empty } from "@/components/empty";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useProModal } from "@/hooks/use-pro-modal";
+const tools = [
+  {
+    label: "Image Generation",
+    icon: ImageIcon,
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    href: "/image",
+    desc: "Generate images using AI technology",
+  },
+  {
+    label: "Generate Fill",
+    icon: PaintBucket,
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
+    href: "/generate-fill",
+    desc: "Enhance an image's dimensions using AI outpainting",
+  },
+  {
+    label: "Image Restore",
+    icon: ArchiveRestore,
+    color: "text-violet-500",
+    bgColor: "bg-violet-500/10",
+    href: "/conversation",
+    desc: "Refine images by removing noise and imperfections",
+  },
+  {
+    label: "Object Remove",
+    icon: ScanLine,
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    href: "/image",
+    desc: "Identify and eliminate unwanted objects from images",
+  },
+  {
+    label: "Object Recolor",
+    icon: PaintRoller,
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10",
+    href: "/video",
+    desc: "Identify and recolor objects in images using Ai Tech",
+  },
+  {
+    label: "Background Remove",
+    icon: UserRoundMinus,
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
+    href: "/code",
+    desc: "Remove the background from images using AI, ",
+  },
+];
 
-import { amountOptions, formSchema, resolutionOptions } from "./constants";
-
-const PhotoPage = () => {
-  const proModal = useProModal();
+const ImageToolsPage = () => {
   const router = useRouter();
-  const [photos, setPhotos] = useState<string[]>([]);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      prompt: "",
-      amount: "1",
-      resolution: "512x512"
-    }
-  });
-
-  const isLoading = form.formState.isSubmitting;
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setPhotos([]);
-
-      const response = await axios.post('/api/image', values);
-
-      const urls = response.data.map((image: { url: string }) => image.url);
-
-      setPhotos(urls);
-    } catch (error: any) {
-      if (error?.response?.status === 403) {
-        proModal.onOpen();
-      } else {
-        // toast.error("Something went wrong.");
-      }
-    } finally {
-      router.refresh();
-    }
-  }
-
-  return ( 
+  return (
     <div>
-      <Heading
-        title="Image Generation"
-        description="Turn your prompt into an image."
-        icon={ImageIcon}
-        iconColor="text-pink-700"
-        bgColor="bg-pink-700/10"
-      />
-      <div className="px-4 lg:px-8">
-        <Form {...form}>
-          <form 
-            onSubmit={form.handleSubmit(onSubmit)} 
-            className="
-              rounded-lg 
-              border 
-              w-full 
-              p-4 
-              px-3 
-              md:px-6 
-              focus-within:shadow-sm
-              grid
-              grid-cols-12
-              gap-2
-            "
+      <div className="mb-8 space-y-4">
+        <h2 className="text-2xl md:text-4xl font-bold text-center">
+          Image Tools
+        </h2>
+        <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
+          Chat with the smartest AI - Experience the power of AI
+        </p>
+      </div>
+
+      <div className="px-4 md:px-20 lg:px-32 space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tools.map((tool) => (
+          <Card
+            onClick={() => router.push(tool.href)}
+            key={tool.href}
+            className="p-4 border-black/5 flex justify-items-stretch gap-4 selection:flex hover:shadow-md transition cursor-pointer"
           >
-            <FormField
-              name="prompt"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-6">
-                  <FormControl className="m-0 p-0">
-                    <Input
-                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                      disabled={isLoading} 
-                      placeholder="A picture of a horse in Swiss alps" 
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-2">
-                  <Select 
-                    disabled={isLoading} 
-                    onValueChange={field.onChange} 
-                    value={field.value} 
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {amountOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="resolution"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-2">
-                  <Select 
-                    disabled={isLoading} 
-                    onValueChange={field.onChange} 
-                    value={field.value} 
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {resolutionOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
-              Generate
-            </Button>
-          </form>
-        </Form>
-        {isLoading && (
-          <div className="p-20">
-            <Loader />
-          </div>
-        )}
-        {photos.length === 0 && !isLoading && (
-          <Empty label="No images generated." />
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
-          {photos.map((src) => (
-            <Card key={src} className="rounded-lg overflow-hidden">
-              <div className="relative aspect-square">
-                <Image
-                  fill
-                  alt="Generated"
-                  src={src}
-                />
+            <div className="flex flex-col gap-4">
+              <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
+                <tool.icon className={cn("w-8 h-8", tool.color)} />
               </div>
-              <CardFooter className="p-2">
-                <Button onClick={() => window.open(src)} variant="secondary" className="w-full">
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+              <div className="font-semibold w-full">
+                {tool.label}
+                <p className="text-sm text-gray-500  text-wrap">
+                  {tool.desc}
+                </p>{" "}
+                {/* Description */}
+              </div>
+            </div>
+            <ArrowRight className="w-5 h-5" />
+          </Card>
+        ))}
       </div>
     </div>
-   );
-}
- 
-export default PhotoPage;
+  );
+};
+
+export default ImageToolsPage;
